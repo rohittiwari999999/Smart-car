@@ -5,28 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body { background: #1a1a1a; color: white; text-align: center; font-family: sans-serif; padding-top: 20px; }
-        .grid { display: grid; grid-template-columns: 80px 80px 80px; gap: 15px; justify-content: center; margin-top: 30px; }
-        .btn { width: 80px; height: 80px; font-size: 16px; border-radius: 15px; border: none; background: #00ff88; color: black; font-weight: bold; cursor: pointer; touch-action: manipulation; }
+        
+        /* 3x3 Grid Layout */
+        .grid { 
+            display: grid; 
+            grid-template-columns: 90px 90px 90px; 
+            grid-template-rows: 90px 90px 90px;
+            gap: 15px; 
+            justify-content: center; 
+            margin-top: 30px; 
+        }
+
+        .btn { 
+            width: 90px; height: 90px; font-size: 16px; border-radius: 15px; border: none; 
+            background: #00ff88; color: black; font-weight: bold; cursor: pointer; 
+            touch-action: manipulation; 
+        }
+
         .btn:active { background: #ff0055; color: white; }
-        .center { grid-column: 2; }
+        
+        /* Refresh Button Style */
+        .refresh-btn { background: #555; color: white; font-size: 12px; }
+
+        /* Positioning buttons in 3x3 grid */
+        .up { grid-column: 2; grid-row: 1; }
+        .left { grid-column: 1; grid-row: 2; }
+        .refresh { grid-column: 2; grid-row: 2; }
+        .right { grid-column: 3; grid-row: 2; }
+        .down { grid-column: 2; grid-row: 3; }
+
         .slider-container { margin-top: 40px; padding: 20px; }
         input[type=range] { width: 80%; max-width: 300px; height: 15px; border-radius: 5px; background: #444; outline: none; -webkit-appearance: none; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 25px; height: 25px; border-radius: 50%; background: #00ff88; cursor: pointer; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; border-radius: 50%; background: #00ff88; cursor: pointer; }
     </style>
 </head>
 <body>
     <h1>🚗 Smart Car Control</h1>
     
     <div class="grid">
-        <button class="btn center" onmousedown="callBlynk('V0',1)" onmouseup="callBlynk('V0',0)" ontouchstart="callBlynk('V0',1)" ontouchend="callBlynk('V0',0)">UP</button>
-        <button class="btn" onmousedown="callBlynk('V2',1)" onmouseup="callBlynk('V2',0)" ontouchstart="callBlynk('V2',1)" ontouchend="callBlynk('V2',0)">LEFT</button>
-        <button class="btn" style="background:#555" onclick="location.reload()">REFRESH</button>
-        <button class="btn" onmousedown="callBlynk('V3',1)" onmouseup="callBlynk('V3',0)" ontouchstart="callBlynk('V3',1)" ontouchend="callBlynk('V3',0)">RIGHT</button>
-        <button class="btn center" onmousedown="callBlynk('V1',1)" onmouseup="callBlynk('V1',0)" ontouchstart="callBlynk('V1',1)" ontouchend="callBlynk('V1',0)">DOWN</button>
+        <button class="btn up" onmousedown="callBlynk('V0',1)" onmouseup="callBlynk('V0',0)" ontouchstart="callBlynk('V0',1)" ontouchend="callBlynk('V0',0)">UP</button>
+        
+        <button class="btn left" onmousedown="callBlynk('V2',1)" onmouseup="callBlynk('V2',0)" ontouchstart="callBlynk('V2',1)" ontouchend="callBlynk('V2',0)">LEFT</button>
+        
+        <button class="btn refresh refresh-btn" onclick="location.reload()">REFRESH</button>
+        
+        <button class="btn right" onmousedown="callBlynk('V3',1)" onmouseup="callBlynk('V3',0)" ontouchstart="callBlynk('V3',1)" ontouchend="callBlynk('V3',0)">RIGHT</button>
+        
+        <button class="btn down" onmousedown="callBlynk('V1',1)" onmouseup="callBlynk('V1',0)" ontouchstart="callBlynk('V1',1)" ontouchend="callBlynk('V1',0)">DOWN</button>
     </div>
 
     <div class="slider-container">
-        <h3>⚡ Speed Control: <span id="speedValue">200</span></h3>
+        <h3>⚡ Speed: <span id="speedValue">200</span></h3>
         <input type="range" min="0" max="255" value="200" id="speedSlider" oninput="updateSpeed(this.value)">
     </div>
 
@@ -39,7 +68,7 @@
 
         function updateSpeed(val) {
             document.getElementById('speedValue').innerText = val;
-            callBlynk('V5', val); // V5 slider ke liye
+            callBlynk('V5', val);
         }
     </script>
 </body>
